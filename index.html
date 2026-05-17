@@ -207,14 +207,9 @@ input { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto clamp(24px, 2.5vw, 36px);
-  width: clamp(96px, 13vw, 168px);
-  height: clamp(96px, 13vw, 168px);
-  border-radius: 22%;
-  background: var(--black);
-  box-shadow:
-    0 28px 60px -16px rgba(26, 26, 26, 0.30),
-    0 2px 6px rgba(26, 26, 26, 0.08);
+  margin: 0 auto clamp(20px, 2.5vw, 32px);
+  width: clamp(104px, 14vw, 176px);
+  height: clamp(104px, 14vw, 176px);
 
   /* entrance: scale in */
   opacity: 0;
@@ -224,7 +219,7 @@ input { font-family: inherit; }
   /* scroll-driven shrink (set via JS) */
   will-change: transform;
 }
-.hero-icon-wrap svg { width: 70%; height: 70%; }
+.hero-icon-wrap svg { width: 100%; height: 100%; overflow: visible; }
 
 .hero-icon-wrap .v-path,
 .hero-icon-wrap .w-path {
@@ -238,7 +233,7 @@ input { font-family: inherit; }
   stroke-dashoffset: 600;
   animation: draw 900ms var(--ease-out) 500ms forwards;
 }
-.hero-icon-wrap .v-path { stroke: var(--white); }
+.hero-icon-wrap .v-path { stroke: var(--black); }
 .hero-icon-wrap .w-path { stroke: var(--green-2); animation-delay: 700ms; }
 
 .hero-title {
@@ -310,11 +305,11 @@ input { font-family: inherit; }
 /* Waitlist form */
 .waitlist {
   display: flex; align-items: stretch;
-  max-width: 460px; margin: clamp(28px, 3vw, 40px) auto 0;
+  max-width: 480px; margin: clamp(28px, 3vw, 40px) auto 0;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 4px;
+  padding: 6px;
   transition: border-color 180ms, box-shadow 180ms;
 
   opacity: 0; transform: translateY(12px);
@@ -327,8 +322,8 @@ input { font-family: inherit; }
 .waitlist input {
   flex: 1; min-width: 0;
   border: 0; outline: 0; background: transparent;
-  padding: 14px 8px 14px 20px;
-  font-size: clamp(14px, 0.4vw + 13px, 16px);
+  padding: 15px 14px 15px 22px;
+  font-size: 15px;
   color: var(--black);
   letter-spacing: -0.005em;
 }
@@ -336,16 +331,16 @@ input { font-family: inherit; }
 .waitlist button {
   background: var(--black); color: var(--white);
   border: 0; border-radius: 999px;
-  padding: 0 clamp(16px, 2vw, 24px);
+  padding: 0 26px;
   font-weight: 600;
-  font-size: clamp(13px, 0.3vw + 12px, 15px);
+  font-size: 14px;
   letter-spacing: -0.005em;
-  display: inline-flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center;
   transition: background 150ms, transform 80ms;
 }
 .waitlist button:hover { background: var(--green); }
 .waitlist button:active { transform: scale(0.98); }
-.waitlist button svg { width: 14px; height: 14px; }
 
 .waitlist-meta {
   margin-top: 14px;
@@ -922,11 +917,8 @@ input { font-family: inherit; }
     <p class="hero-sub">Hiring based on what you've done. Not what your CV says.</p>
 
     <form class="waitlist" id="hero-form" autocomplete="off" novalidate>
-      <input type="email" name="email" placeholder="you@where-you-work.com" required aria-label="Email address">
-      <button type="submit">
-        Join the Waitlist
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
+      <input type="email" name="email" placeholder="you@company.com" required aria-label="Email address">
+      <button type="submit">Join the Waitlist</button>
     </form>
 
     <div class="waitlist-meta">
@@ -1079,11 +1071,8 @@ input { font-family: inherit; }
     <h2 class="reveal">Your work deserves proof.</h2>
     <p class="reveal reveal-delay-1">Join the waitlist and be first to build your verified profile.</p>
     <form class="waitlist reveal reveal-delay-2" id="final-form" autocomplete="off" novalidate>
-      <input id="final-email" type="email" name="email" placeholder="you@where-you-work.com" required aria-label="Email address">
-      <button type="submit">
-        Join the Waitlist
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
+      <input id="final-email" type="email" name="email" placeholder="you@company.com" required aria-label="Email address">
+      <button type="submit">Join the Waitlist</button>
     </form>
     <div class="waitlist-meta reveal reveal-delay-3">
       <span>Free to join. No credit card.</span>
