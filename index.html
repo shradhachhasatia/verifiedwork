@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerifiedWork — Get hired for work you can prove</title>
+
+    <meta name="description" content="VerifiedWork turns your real, manager-confirmed accomplishments into a profile recruiters can trust. Join the waitlist for intent-based hiring.">
+    <meta name="theme-color" content="#2D6A4F">
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="VerifiedWork — Get hired for work you can prove">
+    <meta property="og:description" content="Hiring based on real work, not a fake CV. Join the waitlist.">
+    <meta property="og:site_name" content="VerifiedWork">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Inline SVG favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%232D6A4F'/%3E%3Cpath d='M7 12.5L10.5 16L17 9' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-white: #FFFFFF;
+            --bg-offwhite: #F7F9F8;
+            --primary: #2D6A4F;
+            --primary-hover: #1B4332;
+            --tint: #D8F3DC;
+            --tint-soft: #EBF7EE;
+            --black: #111111;
+            --grey-dark: #4B5563;
+            --grey: #6B7280;
+            --grey-light: #9CA3AF;
+            --border: #E5E7EB;
+            --danger: #B91C1C;
+
+            --ease-snappy: cubic-bezier(0.25, 1, 0.1, 1);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-float: 0 24px 48px -16px rgba(17,17,17,0.12), 0 0 0 1px rgba(17,17,17,0.04);
+            --shadow-soft: 0 10px 30px -12px rgba(17,17,17,0.10);
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-white);
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { border: none; cursor: pointer; font-family: inherit; }
+
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .visually-hidden {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+        }
+
+        .skip-link {
+            position: absolute; left: 16px; top: -60px;
+            background: var(--black); color: #fff; padding: 10px 16px;
+            border-radius: 6px; z-index: 200; transition: top 0.2s ease;
+        }
+        .skip-link:focus { top: 16px; }
+
+        /* --- Scroll Animations --- */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+            will-change: opacity, transform;
+        }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal-up { opacity: 1; transform: none; }
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .navbar.scrolled { border-bottom: 1px solid var(--border); box-shadow: 0 4px 20px -16px rgba(0,0,0,0.3); }
+        .navbar .container {
+            display: flex; justify-content: space-between; align-items: center; height: 72px;
+        }
+
+        .logo { display: flex; align-items: center; line-height: 1; }
+        .logo-verified {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800; color: var(--black);
+            font-size: 26px; letter-spacing: -0.02em;
+        }
+        .logo-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 12px; height: 12px; margin: 0 6px;
+        }
+        .logo-icon svg { width: 100%; height: 100%; }
+        .logo-work {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400; color: var(--grey);
+            font-size: 26px; letter-spacing: -0.01em;
+        }
+
+        .nav-right { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: none; gap: 28px; }
+        @media (min-width: 768px) { .nav-links { display: flex; } }
+        .nav-links a {
+            font-size: 14px; font-weight: 500; color: var(--grey-dark);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--black); }
+
+        .nav-btn {
+            background-color: var(--primary); color: var(--bg-white);
+            font-weight: 500; font-size: 14px; padding: 10px 20px;
+            border-radius: 6px; transition: transform 0.2s var(--ease-snappy), background-color 0.2s;
+        }
+        .nav-btn:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+
+        /* --- Hero --- */
+        .hero {
+            position: relative; padding: 110px 24px 96px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .hero-inner { max-width: 760px; width: 100%; }
+
+        /* Soft background grid glow */
+        .hero::before {
+            content: ""; position: absolute; inset: 0; z-index: -2;
+            background:
+                radial-gradient(60% 50% at 50% 0%, var(--tint-soft) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .hero-visual {
+            position: absolute; display: none; background: rgba(255,255,255,0.95);
+            border: 1px solid var(--border); border-radius: 999px; padding: 10px 16px 10px 10px;
+            box-shadow: var(--shadow-soft); z-index: -1; align-items: center; gap: 10px;
+            animation: float 6s ease-in-out infinite;
+        }
+        @media (min-width: 1040px) { .hero-visual { display: flex; } }
+        .hero-visual.v-left { top: 22%; left: 2%; animation-delay: 0s; }
+        .hero-visual.v-right { top: 46%; right: 1%; animation-delay: -3s; }
+        .v-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--tint); display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .v-icon svg { width: 14px; height: 14px; }
+        .v-title { font-size: 13px; font-weight: 500; color: var(--black); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background-color: var(--tint); color: var(--primary);
+            font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 999px; margin-bottom: 28px;
+        }
+        .hero-badge .pulse-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: var(--primary);
+            box-shadow: 0 0 0 0 rgba(45,106,79,0.5);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(45,106,79,0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(45,106,79,0); }
+            100% { box-shadow: 0 0 0 0 rgba(45,106,79,0); }
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 7vw, 64px); font-weight: 700; color: var(--black);
+            line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 22px;
+        }
+
+        .word-carousel {
+            display: inline-block; color: var(--primary);
+            position: relative; height: 1.1em; vertical-align: bottom;
+            overflow: hidden;
+        }
+        .carousel-track { display: inline-block; }
+        .carousel-word {
+            position: absolute; top: 0; left: 0; width: 100%; text-align: center;
+            opacity: 0; transform: translateY(100%);
+            transition: opacity 0.6s var(--ease-smooth), transform 0.6s var(--ease-smooth);
+            white-space: nowrap;
+        }
+        .carousel-word.active { opacity: 1; transform: translateY(0); position: relative; }
+        .carousel-word.out { opacity: 0; transform: translateY(-100%); }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 20px); color: var(--grey-dark); font-weight: 400;
+            max-width: 520px; margin: 0 auto 36px; line-height: 1.55;
+        }
+
+        /* --- Inline waitlist form --- */
+        .waitlist-form {
+            display: flex; gap: 10px; max-width: 480px; margin: 0 auto 16px;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .waitlist-input-wrap { flex: 1 1 240px; position: relative; }
+        .waitlist-input {
+            width: 100%; font-size: 16px; font-family: inherit;
+            padding: 16px 18px; border: 1px solid var(--border);
+            border-radius: 8px; background: var(--bg-white); color: var(--black);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .waitlist-input::placeholder { color: var(--grey-light); }
+        .waitlist-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--tint-soft);
+        }
+        .waitlist-input[aria-invalid="true"] {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 4px rgba(185,28,28,0.08);
+        }
+        /* Honeypot — hidden from humans */
+        .hp-field {
+            position: absolute; left: -9999px; width: 1px; height: 1px;
+            opacity: 0; pointer-events: none;
+        }
+
+        .submit-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: var(--black); color: var(--bg-white);
+            font-weight: 500; font-size: 16px; padding: 16px 28px;
+            border-radius: 8px; white-space: nowrap;
+            transition: transform 0.2s var(--ease-snappy), background-color 0.2s ease;
+        }
+        .submit-btn svg { transition: transform 0.3s var(--ease-snappy); width: 18px; }
+        .submit-btn:hover:not(:disabled) { background-color: var(--primary); transform: translateY(-2px); }
+        .submit-btn:hover:not(:disabled) svg { transform: translateX(4px); }
+        .submit-btn:disabled { opacity: 0.7; cursor: progress; }
+
+        .btn-spinner {
+            display: none; width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .submit-btn.loading .btn-spinner { display: inline-block; }
+        .submit-btn.loading .btn-label,
+        .submit-btn.loading svg.arrow { display: none; }
+
+        .form-message {
+            min-height: 22px; font-size: 14px; font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-message.error { color: var(--danger); }
+        .form-message.success { color: var(--primary); }
+
+        /* Success state */
+        .form-success {
+            display: none; max-width: 480px; margin: 0 auto 16px;
+            background: var(--tint-soft); border: 1px solid var(--tint);
+            border-radius: var(--radius); padding: 24px;
+            text-align: center;
+        }
+        .form-success.visible { display: block; animation: popIn 0.5s var(--ease-snappy); }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .success-check {
+            width: 48px; height: 48px; margin: 0 auto 12px;
+            background: var(--primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .success-check svg { width: 24px; height: 24px; }
+        .form-success h3 { font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
+        .form-success p { font-size: 14px; color: var(--grey-dark); }
+
+        .hero-proof {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            margin-top: 20px; flex-wrap: wrap;
+        }
+        .avatar-stack { display: flex; }
+        .avatar-stack span {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 2px solid var(--bg-white); margin-left: -8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 600; color: var(--bg-white);
+        }
+        .avatar-stack span:first-child { margin-left: 0; }
+        .avatar-stack span:nth-child(1) { background: #2D6A4F; }
+        .avatar-stack span:nth-child(2) { background: #40916C; }
+        .avatar-stack span:nth-child(3) { background: #1B4332; }
+        .avatar-stack span:nth-child(4) { background: #52B788; }
+        .proof-text { font-size: 13px; color: var(--grey); font-weight: 500; }
+        .proof-text strong { color: var(--black); font-weight: 700; }
+
+        /* --- Problem section --- */
+        .problem-section {
+            padding: 110px 24px; background: var(--bg-offwhite);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .problem-container {
+            max-width: 1100px; margin: 0 auto; display: grid;
+            grid-template-columns: 1fr; gap: 64px; align-items: center;
+        }
+        @media (min-width: 860px) { .problem-container { grid-template-columns: 1fr 1fr; } }
+
+        .problem-text-content { text-align: left; }
+        .section-label {
+            display: inline-block; text-transform: uppercase; letter-spacing: 0.1em;
+            font-size: 12px; font-weight: 600; color: var(--primary); margin-bottom: 18px;
+        }
+        .problem-title { font-size: clamp(32px, 4vw, 44px); font-weight: 700; color: var(--black); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 22px; }
+        .problem-desc { font-size: 18px; color: var(--grey-dark); font-weight: 400; line-height: 1.6; }
+
+        .problem-visuals { position: relative; height: 380px; perspective: 1000px; width: 100%; max-width: 440px; margin: 0 auto; }
+        .p-card {
+            position: absolute; width: 100%; background: var(--bg-white); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; box-shadow: var(--shadow-float);
+            transition: all 0.8s var(--ease-snappy); opacity: 0; transform-origin: center;
+        }
+        .p-card.active { opacity: 1; }
+        .p-card.active.c1 { transform: rotate(-4deg) translate(-10px, 0px); z-index: 1; }
+        .p-card.active.c2 { transform: rotate(2deg) translate(10px, 50px); z-index: 2; }
+        .p-card.active.c3 { transform: rotate(-2deg) translate(0px, 110px); z-index: 3; border: 1px solid #111; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.15); }
+
+        .pc-header { font-size: 13px; font-weight: 600; color: var(--grey-light); margin-bottom: 12px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; }
+        .pc-text { font-size: 16px; font-weight: 500; color: var(--black); line-height: 1.5; }
+        .pc-text-highlight { font-size: 18px; font-weight: 600; color: var(--black); line-height: 1.4; }
+        .pc-alert { display: inline-flex; align-items: center; background: var(--bg-offwhite); color: var(--grey-dark); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 4px; margin-top: 12px; border: 1px solid var(--border); }
+        .pc-alert.red { background: var(--black); color: white; border: none; }
+
+        /* --- Roadmap --- */
+        .roadmap-section { padding: 110px 24px; background-color: var(--bg-white); }
+        .roadmap-header { text-align: center; margin-bottom: 72px; }
+        .roadmap-header .section-title { font-size: clamp(32px, 4vw, 44px); font-weight: 700; color: var(--black); letter-spacing: -0.02em; }
+        .roadmap-header p { font-size: 17px; color: var(--grey-dark); margin-top: 12px; }
+
+        .roadmap-container { max-width: 520px; margin: 0 auto; position: relative; padding-left: 48px; }
+        .roadmap-line-bg { position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+        .roadmap-line-fill { position: absolute; left: 11px; top: 8px; width: 2px; height: 0%; background: var(--primary); transition: height 0.4s ease-out; }
+
+        .roadmap-step { position: relative; margin-bottom: 56px; opacity: 0; transform: translateX(15px); transition: all 0.6s var(--ease-snappy); }
+        .roadmap-step:last-child { margin-bottom: 0; }
+        .roadmap-step.active { opacity: 1; transform: translateX(0); }
+
+        .roadmap-dot {
+            position: absolute; left: -43px; top: 4px; width: 14px; height: 14px;
+            background: var(--bg-white); border: 2px solid var(--border); border-radius: 50%;
+            transition: all 0.4s ease; z-index: 2;
+        }
+        .roadmap-step.active .roadmap-dot { border-color: var(--primary); background: var(--primary); box-shadow: 0 0 0 4px var(--tint); }
+
+        .rm-step-num { font-size: 12px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: block; }
+        .rm-title { font-size: 20px; font-weight: 600; color: var(--black); margin-bottom: 8px; letter-spacing: -0.01em; }
+        .rm-desc { font-size: 16px; color: var(--grey-dark); font-weight: 400; line-height: 1.6; }
+
+        /* --- Mockup --- */
+        .mockup-section {
+            padding: 110px 24px; text-align: center; background-color: var(--bg-offwhite);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .mockup-section .section-title { font-size: clamp(32px, 4vw, 44px); font-weight: 700; color: var(--black); margin-bottom: 12px; letter-spacing: -0.02em; }
+        .mockup-section .section-sub { font-size: 17px; color: var(--grey-dark); margin-bottom: 56px; }
+
+        .ui-card {
+            max-width: 600px; margin: 0 auto; background: var(--bg-white);
+            border: 1px solid var(--border); border-radius: 16px; text-align: left;
+            box-shadow: var(--shadow-float); overflow: hidden;
+        }
+        .ui-header { padding: 24px 32px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .ui-profile-wrap { display: flex; gap: 16px; align-items: center; }
+        .ui-avatar {
+            width: 48px; height: 48px; background: var(--primary); color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600;
+        }
+        .ui-name { font-size: 18px; font-weight: 600; color: var(--black); }
+        .ui-headline { font-size: 14px; color: var(--grey); font-weight: 400; }
+        .ui-badge {
+            background: var(--tint); color: var(--primary);
+            font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .ui-badge svg { width: 12px; height: 12px; }
+        .ui-body { padding: 32px; }
+        .ui-entry-title { font-size: 18px; font-weight: 600; color: var(--black); }
+        .ui-entry-company { font-size: 15px; font-weight: 400; color: var(--grey); margin-top: 2px; }
+        .ui-outcome {
+            font-size: 15px; color: var(--black); font-weight: 400; line-height: 1.6;
+            padding: 24px 0; margin: 24px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .ui-verifier-box { display: flex; align-items: center; gap: 12px; }
+        .ui-v-avatar { width: 36px; height: 36px; background: var(--bg-offwhite); color: var(--grey-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 13px; border: 1px solid var(--border); }
+        .ui-v-name { font-size: 14px; font-weight: 500; color: var(--black); }
+        .ui-v-role { font-size: 13px; color: var(--primary); font-weight: 500; }
+
+        /* --- FAQ --- */
+        .faq-section { padding: 110px 24px; background: var(--bg-white); }
+        .faq-header { text-align: center; margin-bottom: 56px; }
+        .faq-header .section-title { font-size: clamp(32px, 4vw, 44px); font-weight: 700; color: var(--black); letter-spacing: -0.02em; }
+        .faq-list { max-width: 720px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-item:first-child { border-top: 1px solid var(--border); }
+        .faq-question {
+            width: 100%; background: none; text-align: left;
+            display: flex; justify-content: space-between; align-items: center; gap: 16px;
+            padding: 24px 4px; font-size: 17px; font-weight: 600; color: var(--black);
+        }
+        .faq-icon {
+            flex-shrink: 0; width: 22px; height: 22px; position: relative;
+            transition: transform 0.3s var(--ease-snappy);
+        }
+        .faq-icon::before, .faq-icon::after {
+            content: ""; position: absolute; background: var(--primary);
+            border-radius: 2px; transition: opacity 0.2s;
+        }
+        .faq-icon::before { left: 0; top: 10px; width: 22px; height: 2px; }
+        .faq-icon::after { left: 10px; top: 0; width: 2px; height: 22px; }
+        .faq-item.open .faq-icon { transform: rotate(135deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.35s var(--ease-smooth);
+        }
+        .faq-answer p {
+            padding: 0 4px 24px; font-size: 16px; color: var(--grey-dark); line-height: 1.65;
+        }
+
+        /* --- Final CTA --- */
+        .final-cta { background-color: var(--primary); padding: 96px 24px; text-align: center; }
+        .final-cta-title { font-size: clamp(32px, 4vw, 44px); font-weight: 700; color: var(--bg-white); margin-bottom: 14px; letter-spacing: -0.02em; }
+        .final-cta-subtitle { font-size: clamp(16px, 2vw, 18px); color: var(--tint); font-weight: 400; margin-bottom: 36px; }
+
+        .final-cta .waitlist-input { border-color: transparent; }
+        .final-cta .submit-btn { background: var(--bg-white); color: var(--black); }
+        .final-cta .submit-btn:hover:not(:disabled) { background: var(--black); color: #fff; transform: translateY(-2px); }
+        .final-cta .submit-btn .btn-spinner { border-color: rgba(0,0,0,0.25); border-top-color: var(--black); }
+        .final-cta .form-message.error { color: #FECACA; }
+        .final-cta .form-message.success { color: var(--bg-white); }
+        .final-cta .form-success { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+        .final-cta .form-success h3 { color: #fff; }
+        .final-cta .form-success p { color: var(--tint); }
+        .final-cta .success-check { background: var(--bg-white); }
+        .final-cta .success-check svg path { stroke: var(--primary); }
+
+        /* --- Footer --- */
+        .footer { background-color: var(--bg-white); color: var(--black); padding: 60px 24px 32px; }
+        .footer-grid {
+            display: grid; grid-template-columns: 1fr; gap: 32px; margin-bottom: 48px; text-align: center;
+        }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr 1fr; text-align: left; align-items: center; } }
+        .footer-logo-wrap .logo { justify-content: center; }
+        @media (min-width: 768px) { .footer-logo-wrap .logo { justify-content: flex-start; } }
+        .footer-links { display: flex; flex-direction: column; gap: 16px; align-items: center; }
+        @media (min-width: 768px) { .footer-links { flex-direction: row; justify-content: center; } }
+        .footer-links a { font-size: 14px; color: var(--grey); font-weight: 400; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--black); }
+        .footer-socials { display: flex; justify-content: center; gap: 16px; }
+        @media (min-width: 768px) { .footer-socials { justify-content: flex-end; } }
+        .footer-socials a {
+            color: var(--grey); display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+            transition: all 0.2s ease; background: transparent;
+        }
+        .footer-socials a:hover { color: var(--primary); border-color: var(--primary); }
+        .footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+        .footer-socials a.stroke-icon svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; }
+        .footer-copyright { font-size: 13px; color: var(--grey-light); }
+
+        /* --- Back to top --- */
+        .to-top {
+            position: fixed; right: 24px; bottom: 24px; z-index: 90;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--black); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow-soft);
+            opacity: 0; pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s var(--ease-snappy), background-color 0.2s;
+        }
+        .to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .to-top:hover { background: var(--primary); }
+        .to-top svg { width: 18px; height: 18px; }
+    </style>
+</head>
+<body>
+
+    <a href="#waitlist" class="skip-link">Skip to waitlist signup</a>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#top" class="logo" aria-label="VerifiedWork Home">
+                <span class="logo-verified">verified</span>
+                <span class="logo-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#2D6A4F"/>
+                        <path d="M7 12.5L10.5 16L17 9" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="logo-work">work</span>
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="#how">How it works</a>
+                    <a href="#profile">The profile</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <a href="#waitlist"><button class="nav-btn">Join Waitlist</button></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero" id="top">
+        <div class="hero-visual v-left" aria-hidden="true">
+            <div class="v-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div class="v-title">Verified Identity</div>
+        </div>
+        <div class="hero-visual v-right" aria-hidden="true">
+            <div class="v-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="v-title">Project Confirmed</div>
+        </div>
+
+        <div class="hero-inner">
+            <div class="hero-badge reveal-up">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                Intent-based hiring is here.
+            </div>
+
+            <h1 class="hero-title reveal-up" style="transition-delay: 0.1s;">
+                Stop being filtered.<br>
+                Start being
+                <span class="word-carousel" aria-hidden="true">
+                    <span class="carousel-track">
+                        <span class="carousel-word active">found.</span>
+                        <span class="carousel-word">hired.</span>
+                        <span class="carousel-word">seen.</span>
+                        <span class="carousel-word">verified.</span>
+                    </span>
+                </span>
+                <span class="visually-hidden">found, hired, seen and verified.</span>
+            </h1>
+
+            <p class="hero-subtitle reveal-up" style="transition-delay: 0.2s;">
+                VerifiedWork turns your real, manager-confirmed accomplishments into a
+                profile recruiters actually trust. Hiring based on real work — not a fake CV.
+            </p>
+
+            <!-- Inline waitlist form -->
+            <div class="reveal-up" id="waitlist" style="transition-delay: 0.3s;">
+                <form class="waitlist-form" data-waitlist novalidate>
+                    <div class="waitlist-input-wrap">
+                        <label class="visually-hidden" for="hero-email">Your email address</label>
+                        <input class="waitlist-input" type="email" id="hero-email" name="email"
+                               placeholder="you@work.com" autocomplete="email"
+                               required aria-describedby="hero-form-msg">
+                        <!-- Honeypot -->
+                        <input class="hp-field" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    </div>
+                    <button class="submit-btn" type="submit">
+                        <span class="btn-spinner" aria-hidden="true"></span>
+                        <span class="btn-label">Join the Waitlist</span>
+                        <svg class="arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+                <p class="form-message" id="hero-form-msg" role="status" aria-live="polite"></p>
+
+                <div class="form-success" data-success>
+                    <div class="success-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>You're on the list.</h3>
+                    <p>We'll email you the moment early access opens. Keep an eye on your inbox.</p>
+                </div>
+
+                <div class="hero-proof">
+                    <div class="avatar-stack" aria-hidden="true">
+                        <span>AC</span><span>SJ</span><span>MK</span><span>+</span>
+                    </div>
+                    <p class="proof-text"><strong id="waitlist-count">1,200+</strong> people already waiting for early access</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+    <!-- Problem -->
+    <section class="problem-section">
+        <div class="problem-container">
+            <div class="problem-text-content reveal-up">
+                <span class="section-label">The Reality</span>
+                <h2 class="problem-title">Resumes are dead.</h2>
+                <p class="problem-desc">
+                    AI writes them. AI screens them. Nobody checks if any of it was actually real.<br><br>
+                    Recruiters can't tell the difference between actual experience and a well-written lie. VerifiedWork brings back the human layer.
+                </p>
+            </div>
+
+            <div class="problem-visuals" aria-hidden="true">
+                <div class="p-card c1 pcard-anim">
+                    <div class="pc-header">Resume_Final_v3.pdf</div>
+                    <div class="pc-text">Led a team of 15 engineers to scale infrastructure by 400%...</div>
+                    <div class="pc-alert">AI Generated</div>
+                </div>
+                <div class="p-card c2 pcard-anim" style="transition-delay: 0.2s">
+                    <div class="pc-header">ATS Screening Log</div>
+                    <div class="pc-text">Candidate match: 98% based on keyword optimization.</div>
+                    <div class="pc-alert">AI Screened</div>
+                </div>
+                <div class="p-card c3 pcard-anim" style="transition-delay: 0.4s">
+                    <div class="pc-header">Reality Check</div>
+                    <div class="pc-text-highlight">"Wait, did they actually build this or just sit in the meetings?"</div>
+                    <div class="pc-alert red">Unverified</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap-section" id="how">
+        <div class="container">
+            <div class="roadmap-header reveal-up">
+                <h2 class="section-title">How it works</h2>
+                <p>Three steps. Around five minutes. Zero recruiter gatekeeping.</p>
+            </div>
+
+            <div class="roadmap-container">
+                <div class="roadmap-line-bg" aria-hidden="true"></div>
+                <div class="roadmap-line-fill" id="roadmapFill" aria-hidden="true"></div>
+
+                <div class="roadmap-step step-anim">
+                    <div class="roadmap-dot" aria-hidden="true"></div>
+                    <div>
+                        <span class="rm-step-num">Step 1</span>
+                        <h3 class="rm-title">Add your work</h3>
+                        <p class="rm-desc">Describe what you built and the actual business outcome — not a list of buzzwords.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-step step-anim">
+                    <div class="roadmap-dot" aria-hidden="true"></div>
+                    <div>
+                        <span class="rm-step-num">Step 2</span>
+                        <h3 class="rm-title">Get verified</h3>
+                        <p class="rm-desc">Your manager or client confirms it in 90 seconds. No app to download, no account to create.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-step step-anim">
+                    <div class="roadmap-dot" aria-hidden="true"></div>
+                    <div>
+                        <span class="rm-step-num">Step 3</span>
+                        <h3 class="rm-title">Share your profile</h3>
+                        <p class="rm-desc">Drop your verified profile link into job applications, proposals and DMs. Proof travels with you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mockup -->
+    <section class="mockup-section" id="profile">
+        <h2 class="section-title reveal-up">What your profile looks like</h2>
+        <p class="section-sub reveal-up">Every claim backed by a real person who saw the work.</p>
+
+        <div class="ui-card reveal-up" style="transition-delay: 0.1s;">
+            <div class="ui-header">
+                <div class="ui-profile-wrap">
+                    <div class="ui-avatar" aria-hidden="true">AC</div>
+                    <div>
+                        <div class="ui-name">Alex Chen</div>
+                        <div class="ui-headline">Product Design Intern</div>
+                    </div>
+                </div>
+                <div class="ui-badge">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12.5L11 14.5L15.5 9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                    Verified
+                </div>
+            </div>
+
+            <div class="ui-body">
+                <div class="ui-entry-title">Product Design Intern</div>
+                <div class="ui-entry-company">Rocketship Labs</div>
+
+                <div class="ui-outcome">
+                    Redesigned the onboarding flow. Reduced drop-off by 34%.
+                </div>
+
+                <div class="ui-verifier-box">
+                    <div class="ui-v-avatar" aria-hidden="true">SJ</div>
+                    <div class="ui-v-info">
+                        <div class="ui-v-name">Verified by Sarah Jenkins</div>
+                        <div class="ui-v-role">Founder, via LinkedIn</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="faq-header reveal-up">
+                <h2 class="section-title">Questions, answered</h2>
+            </div>
+            <div class="faq-list reveal-up">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        Is VerifiedWork free?
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Building and sharing your verified profile is free for candidates. Early access members keep their free plan permanently.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        How does verification actually work?
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You enter a piece of work and tag the manager or client who can vouch for it. They get a single secure link, confirm the details in about 90 seconds, and that's it — no account or app required on their end.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        What if my manager won't respond?
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can request verification from anyone who witnessed the work — a teammate, a client, or a cross-functional lead. Each verification shows who confirmed it, so recruiters can weigh the source.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        When does early access open?
+                        <span class="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We're rolling out invites in batches. Join the waitlist and you'll be notified by email the moment your spot is ready.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="join">
+        <div class="container">
+            <h2 class="final-cta-title reveal-up">Your work deserves proof.</h2>
+            <p class="final-cta-subtitle reveal-up" style="transition-delay: 0.1s;">Join the waitlist and be first in line for early access.</p>
+
+            <div class="reveal-up" style="transition-delay: 0.2s;">
+                <form class="waitlist-form" data-waitlist novalidate>
+                    <div class="waitlist-input-wrap">
+                        <label class="visually-hidden" for="cta-email">Your email address</label>
+                        <input class="waitlist-input" type="email" id="cta-email" name="email"
+                               placeholder="you@work.com" autocomplete="email"
+                               required aria-describedby="cta-form-msg">
+                        <input class="hp-field" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    </div>
+                    <button class="submit-btn" type="submit">
+                        <span class="btn-spinner" aria-hidden="true"></span>
+                        <span class="btn-label">Claim Early Access</span>
+                        <svg class="arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+                <p class="form-message" id="cta-form-msg" role="status" aria-live="polite"></p>
+
+                <div class="form-success" data-success>
+                    <div class="success-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>You're on the list.</h3>
+                    <p>We'll email you the moment early access opens.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-wrap">
+                    <a href="#top" class="logo" aria-label="VerifiedWork Home">
+                        <span class="logo-verified">verified</span>
+                        <span class="logo-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="12" fill="#2D6A4F"/>
+                                <path d="M7 12.5L10.5 16L17 9" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span class="logo-work">work</span>
+                    </a>
+                </div>
+
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+
+                <div class="footer-socials">
+                    <a href="#" aria-label="VerifiedWork on LinkedIn">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Email VerifiedWork" class="stroke-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2026 Aavishkar Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button class="to-top" id="toTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* ============================================================
+               CONFIG — wire up your real backend here.
+               Set WAITLIST_ENDPOINT to a URL that accepts a POST with
+               JSON { email }. Works with Formspree, a serverless function,
+               etc. Leave empty ('') to run in demo mode (no network call).
+               ============================================================ */
+            const WAITLIST_ENDPOINT = '';
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* 1. Word carousel */
+            const words = document.querySelectorAll('.carousel-word');
+            if (words.length > 0 && !prefersReducedMotion) {
+                let currentIndex = 0;
+                setInterval(() => {
+                    const currentWord = words[currentIndex];
+                    currentWord.classList.remove('active');
+                    currentWord.classList.add('out');
+                    currentIndex = (currentIndex + 1) % words.length;
+                    const nextWord = words[currentIndex];
+                    nextWord.classList.remove('out');
+                    nextWord.classList.add('active');
+                }, 2200);
+            }
+
+            /* 2. Parallax for hero pills */
+            const heroArea = document.getElementById('top');
+            const vLeft = document.querySelector('.v-left');
+            const vRight = document.querySelector('.v-right');
+            if (heroArea && vLeft && vRight && !prefersReducedMotion) {
+                heroArea.addEventListener('mousemove', (e) => {
+                    const x = (window.innerWidth / 2 - e.pageX) / 50;
+                    const y = (window.innerHeight / 2 - e.pageY) / 50;
+                    vLeft.style.transform = `translate(${x}px, ${y}px)`;
+                    vRight.style.transform = `translate(${-x}px, ${-y}px)`;
+                });
+            }
+
+            /* 3. Reveal-on-scroll */
+            const revealEls = document.querySelectorAll('.reveal-up');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+                revealEls.forEach(el => observer.observe(el));
+
+                const pcardObserver = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            document.querySelectorAll('.pcard-anim').forEach(el => el.classList.add('active'));
+                            obs.disconnect();
+                        }
+                    });
+                }, { threshold: 0.4 });
+                const problemSection = document.querySelector('.problem-section');
+                if (problemSection) pcardObserver.observe(problemSection);
+            } else {
+                revealEls.forEach(el => el.classList.add('active'));
+                document.querySelectorAll('.pcard-anim').forEach(el => el.classList.add('active'));
+            }
+            /* Safety fallback */
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-up:not(.active), .pcard-anim:not(.active)')
+                    .forEach(el => el.classList.add('active'));
+            }, 1200);
+
+            /* 4. Roadmap line + steps */
+            const roadmapSection = document.getElementById('how');
+            const roadmapFill = document.getElementById('roadmapFill');
+            const roadmapSteps = document.querySelectorAll('.step-anim');
+            if (roadmapSection && roadmapFill && roadmapSteps.length > 0) {
+                const updateRoadmap = () => {
+                    const rect = roadmapSection.getBoundingClientRect();
+                    const winH = window.innerHeight;
+                    if (rect.top < winH && rect.bottom > 0) {
+                        const sectionTop = rect.top - (winH / 2);
+                        let progress = (Math.abs(sectionTop) / rect.height) * 100;
+                        if (sectionTop > 0) progress = 0;
+                        if (progress > 100) progress = 100;
+                        roadmapFill.style.height = `${progress}%`;
+                        roadmapSteps.forEach((step, index) => {
+                            if (progress > (index * 33) + 10) step.classList.add('active');
+                        });
+                    }
+                };
+                window.addEventListener('scroll', updateRoadmap, { passive: true });
+                updateRoadmap();
+            }
+
+            /* 5. Navbar border + back-to-top */
+            const navbar = document.getElementById('navbar');
+            const toTop = document.getElementById('toTop');
+            const onScroll = () => {
+                const y = window.scrollY;
+                navbar.classList.toggle('scrolled', y > 10);
+                toTop.classList.toggle('visible', y > 600);
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+            toTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+            });
+
+            /* 6. FAQ accordion */
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const btn = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    document.querySelectorAll('.faq-item.open').forEach(other => {
+                        other.classList.remove('open');
+                        other.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                        other.querySelector('.faq-answer').style.maxHeight = null;
+                    });
+                    if (!isOpen) {
+                        item.classList.add('open');
+                        btn.setAttribute('aria-expanded', 'true');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            /* 7. Waitlist forms */
+            const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+            const STORAGE_KEY = 'vw_waitlist_joined';
+
+            const showJoinedState = (form) => {
+                const success = form.parentElement.querySelector('[data-success]');
+                form.style.display = 'none';
+                const msg = form.parentElement.querySelector('.form-message');
+                if (msg) { msg.textContent = ''; msg.className = 'form-message'; }
+                if (success) success.classList.add('visible');
+            };
+
+            /* If the visitor already joined this session, reflect it */
+            if (localStorage.getItem(STORAGE_KEY)) {
+                document.querySelectorAll('form[data-waitlist]').forEach(showJoinedState);
+            }
+
+            document.querySelectorAll('form[data-waitlist]').forEach(form => {
+                const input = form.querySelector('.waitlist-input');
+                const honeypot = form.querySelector('.hp-field');
+                const button = form.querySelector('.submit-btn');
+                const msg = form.parentElement.querySelector('.form-message');
+
+                const setMsg = (text, type) => {
+                    if (!msg) return;
+                    msg.textContent = text;
+                    msg.className = 'form-message' + (type ? ' ' + type : '');
+                };
+
+                input.addEventListener('input', () => {
+                    input.removeAttribute('aria-invalid');
+                    if (msg && msg.classList.contains('error')) setMsg('', '');
+                });
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (button.classList.contains('loading')) return;
+
+                    /* Honeypot caught a bot — pretend success silently */
+                    if (honeypot && honeypot.value) { showJoinedState(form); return; }
+
+                    const email = input.value.trim();
+                    if (!email) {
+                        input.setAttribute('aria-invalid', 'true');
+                        setMsg('Please enter your email address.', 'error');
+                        input.focus();
+                        return;
+                    }
+                    if (!isValidEmail(email)) {
+                        input.setAttribute('aria-invalid', 'true');
+                        setMsg("That email doesn't look right — mind checking it?", 'error');
+                        input.focus();
+                        return;
+                    }
+
+                    button.classList.add('loading');
+                    button.disabled = true;
+                    setMsg('', '');
+
+                    try {
+                        if (WAITLIST_ENDPOINT) {
+                            const res = await fetch(WAITLIST_ENDPOINT, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                body: JSON.stringify({ email })
+                            });
+                            if (!res.ok) throw new Error('Request failed');
+                        } else {
+                            /* Demo mode — simulate a network round-trip */
+                            await new Promise(r => setTimeout(r, 900));
+                        }
+                        localStorage.setItem(STORAGE_KEY, '1');
+                        /* Reflect success on every form on the page */
+                        document.querySelectorAll('form[data-waitlist]').forEach(showJoinedState);
+                    } catch (err) {
+                        button.classList.remove('loading');
+                        button.disabled = false;
+                        setMsg('Something went wrong. Please try again in a moment.', 'error');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
