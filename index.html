@@ -137,6 +137,47 @@ input { font-family: inherit; }
   text-align: center;
   overflow: hidden;
 }
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(58% 46% at 50% 0%,
+    rgba(216, 243, 220, 0.6) 0%, rgba(255, 255, 255, 0) 72%);
+}
+
+/* Floating hero pills */
+.hero-pill {
+  position: absolute;
+  display: none;
+  z-index: 2;
+  will-change: transform;
+  transition: transform 320ms var(--ease-out);
+}
+@media (min-width: 1120px) { .hero-pill { display: block; } }
+.hero-pill-body {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 16px 8px 8px;
+  box-shadow: 0 16px 36px -14px rgba(26, 26, 26, 0.20);
+  font-size: 13px; font-weight: 600; color: var(--black);
+  white-space: nowrap;
+  animation: float-card 6s ease-in-out infinite;
+}
+.hero-pill .pi {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--green-tint); color: var(--green);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hero-pill .pi svg { width: 14px; height: 14px; }
+.hero-pill .pi.dark { background: var(--black); color: var(--white); }
+.hero-pill.p-1 { top: 17%; left: clamp(12px, 4vw, 64px); }
+.hero-pill.p-2 { top: 38%; right: clamp(12px, 3vw, 52px); }
+.hero-pill.p-2 .hero-pill-body { animation-delay: -2s; }
+.hero-pill.p-3 { top: 63%; left: clamp(24px, 6vw, 116px); }
+.hero-pill.p-3 .hero-pill-body { animation-delay: -4s; }
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
@@ -378,74 +419,88 @@ input { font-family: inherit; }
 .reveal-delay-4 { transition-delay: 320ms; }
 
 /* ============================================================
-   Problem section — the visual punch
+   Problem section — split copy + stacked document cards
    ============================================================ */
-.problem {
-  padding: var(--gap-section) 0;
-  text-align: center;
-}
-.problem-lines {
-  display: flex; flex-direction: column;
-  gap: clamp(12px, 1.2vw, 22px);
-  margin: 0 auto;
+.problem { padding: var(--gap-section) 0; overflow: hidden; }
+.problem-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: clamp(56px, 7vw, 96px);
   align-items: center;
+  max-width: 1080px; margin: 0 auto;
 }
-.problem-line {
-  margin: 0;
-  font-weight: 700;
-  font-size: clamp(28px, 4vw + 12px, 64px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: var(--black);
+@media (min-width: 900px) { .problem-grid { grid-template-columns: 1.05fr 1fr; } }
+.problem-copy { text-align: left; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 20px;
+}
+.eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--green); }
+.problem-copy h2 {
+  margin: 0 0 18px;
+  font-weight: 700; font-size: var(--fs-h2);
+  line-height: 1.08; letter-spacing: -0.03em;
+  color: var(--black); text-wrap: balance;
+}
+.problem-copy .lede {
+  margin: 0; font-size: var(--fs-lede);
+  color: var(--grey); line-height: 1.55; max-width: 40ch;
+}
+.problem-copy .lede .emph { color: var(--black); font-weight: 600; }
+
+/* Stacked document cards */
+.doc-stack {
   position: relative;
-  display: inline-block;
-  max-width: min(92vw, 880px);
-  text-wrap: balance;
+  height: clamp(360px, 42vw, 420px);
+  width: 100%; max-width: 400px;
+  margin: 0 auto;
 }
-.problem-line.strike {
-  color: var(--grey-2);
+.doc-card {
+  position: absolute; left: 0; right: 0;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 18px 40px -16px rgba(26, 26, 26, 0.18);
+  opacity: 0;
+  transform: translateY(40px) rotate(0deg);
+  transition: opacity 700ms var(--ease-out), transform 800ms var(--ease-stamp);
 }
-.problem-line.strike::after {
-  content: "";
-  position: absolute;
-  left: -4%; right: -4%;
-  top: 52%;
-  height: 4px;
-  background: var(--black);
-  border-radius: 4px;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 700ms var(--ease-out);
-  transition-delay: 200ms;
+.doc-card .dc-head {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11.5px;
+  color: var(--grey-2); letter-spacing: 0.02em;
+  padding-bottom: 10px; margin-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
 }
-.problem-line.strike.in::after,
-.problem-line.strike.reveal.in::after { transform: scaleX(1); }
-.problem-line.punch {
-  color: var(--black);
-  margin-top: clamp(8px, 1vw, 16px);
+.doc-card .dc-head svg { width: 13px; height: 13px; flex-shrink: 0; }
+.doc-card .dc-text {
+  margin: 0; font-size: 15px; font-weight: 500;
+  color: var(--black); line-height: 1.5;
 }
-.problem-line.punch::before {
-  content: "";
-  display: inline-block;
-  width: clamp(12px, 1vw, 18px);
-  height: clamp(12px, 1vw, 18px);
-  background: var(--green);
-  border-radius: 50%;
-  margin-right: clamp(8px, 0.8vw, 14px);
-  vertical-align: middle;
-  transform: translateY(-0.08em);
+.doc-card .dc-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px;
+  font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 9px; border-radius: 6px;
+  background: var(--surface-2); color: var(--grey-3);
+  border: 1px solid var(--line);
 }
-.problem-follow {
-  margin: clamp(36px, 4vw, 56px) auto 0;
-  max-width: 56ch;
-  font-size: var(--fs-lede);
-  color: var(--grey);
-  line-height: 1.55;
+.doc-card .dc-tag svg { width: 11px; height: 11px; }
+.doc-card .dc-tag.flag {
+  background: var(--black); color: var(--white); border-color: var(--black);
 }
-.problem-follow .emph {
-  color: var(--black);
-  font-weight: 600;
+.doc-card.dc-3 {
+  border: 1.5px solid var(--black);
+  box-shadow: 0 26px 52px -16px rgba(26, 26, 26, 0.30);
 }
+.doc-card.dc-3 .dc-head { color: var(--black); }
+.doc-stack.in .doc-card { opacity: 1; }
+.doc-stack.in .dc-1 { transform: translateY(0) rotate(-5deg); z-index: 1; }
+.doc-stack.in .dc-2 { transform: translate(10px, 74px) rotate(3.5deg); z-index: 2; transition-delay: 110ms; }
+.doc-stack.in .dc-3 { transform: translateY(158px) rotate(-1.5deg); z-index: 3; transition-delay: 220ms; }
 
 /* ============================================================
    How it works — minimal
@@ -472,38 +527,56 @@ input { font-family: inherit; }
 .how-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(40px, 4vw, 56px);
-  max-width: 980px; margin: 0 auto;
+  gap: clamp(44px, 5vw, 52px);
+  max-width: 1000px; margin: 0 auto;
+  position: relative;
 }
+.how-connector { display: none; }
 .step {
   display: flex; flex-direction: column;
   align-items: center; text-align: center;
-  gap: clamp(16px, 1.5vw, 24px);
-  padding: 0;
-  background: transparent;
-  border: 0;
+  gap: 14px;
+  position: relative; z-index: 1;
 }
-.step:hover { transform: none; box-shadow: none; }
-.step-num {
-  font-family: var(--mono);
-  font-weight: 500;
-  font-size: clamp(13px, 0.4vw + 11px, 16px);
-  letter-spacing: 0.04em;
-  color: var(--green);
-  display: inline-flex; align-items: center; justify-content: center;
-  width: clamp(48px, 5vw, 64px); height: clamp(48px, 5vw, 64px);
-  border-radius: 50%;
+.step-icon {
+  width: clamp(64px, 7vw, 84px); height: clamp(64px, 7vw, 84px);
+  border-radius: 22px;
   background: var(--green-tint);
   border: 1.5px solid var(--green);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green);
+  box-shadow: 0 18px 34px -18px rgba(45, 106, 79, 0.5);
 }
-.step-num::before { display: none; }
+.step-icon svg { width: 44%; height: 44%; }
+.step-num {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 12px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--green-2);
+}
 .step h3 {
   margin: 0;
   font-weight: 700;
-  font-size: clamp(20px, 1.4vw + 14px, 32px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: clamp(19px, 1vw + 15px, 25px);
+  line-height: 1.2; letter-spacing: -0.02em;
   color: var(--black);
+}
+.step p {
+  margin: 0; max-width: 26ch;
+  font-size: clamp(14px, 0.3vw + 13px, 15px);
+  color: var(--grey); line-height: 1.55;
+}
+@media (min-width: 760px) {
+  .how-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .how-connector {
+    display: block;
+    position: absolute;
+    top: clamp(32px, 3.5vw, 42px);
+    left: 16.6%; right: 16.6%;
+    height: 2px; z-index: 0;
+    background: repeating-linear-gradient(to right,
+      var(--green) 0 7px, transparent 7px 15px);
+    opacity: 0.35;
+  }
 }
 
 /* ============================================================
@@ -807,6 +880,24 @@ input { font-family: inherit; }
      ========================================================= -->
 <header class="hero" id="top">
   <div class="container">
+    <span class="hero-pill p-1" aria-hidden="true">
+      <span class="hero-pill-body">
+        <span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        Identity verified
+      </span>
+    </span>
+    <span class="hero-pill p-2" aria-hidden="true">
+      <span class="hero-pill-body">
+        <span class="pi dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg></span>
+        Real outcome logged
+      </span>
+    </span>
+    <span class="hero-pill p-3" aria-hidden="true">
+      <span class="hero-pill-body">
+        <span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="8" r="4"/></svg></span>
+        Endorsed by a manager
+      </span>
+    </span>
     <div class="hero-icon-wrap" id="hero-icon" aria-hidden="true">
       <svg viewBox="0 0 100 100">
         <!-- Continuous W (option C — chiseled, bevel joins) -->
@@ -854,14 +945,51 @@ input { font-family: inherit; }
      ========================================================= -->
 <section class="problem" id="problem">
   <div class="container">
-    <div class="problem-lines">
-      <p class="problem-line strike reveal">AI wrote the resume.</p>
-      <p class="problem-line strike reveal reveal-delay-1">AI screened the resume.</p>
-      <p class="problem-line punch reveal reveal-delay-2">Nobody checked if any of it was real.</p>
+    <div class="problem-grid">
+      <div class="problem-copy reveal">
+        <span class="eyebrow">The reality</span>
+        <h2>Resumes are dead.</h2>
+        <p class="lede">
+          AI writes them. AI screens them. Nobody checks if any of it was real.
+          <span class="emph">VerifiedWork</span> puts the human layer back.
+        </p>
+      </div>
+      <div class="doc-stack reveal reveal-delay-2" aria-hidden="true">
+        <article class="doc-card dc-1">
+          <div class="dc-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg>
+            resume_final_v3.pdf
+          </div>
+          <p class="dc-text">"Led a team of 15 engineers and scaled infrastructure by 400%."</p>
+          <span class="dc-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+            AI-generated
+          </span>
+        </article>
+        <article class="doc-card dc-2">
+          <div class="dc-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg>
+            ats-screening.log
+          </div>
+          <p class="dc-text">Candidate match: 98% — keyword optimization passed.</p>
+          <span class="dc-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+            AI-screened
+          </span>
+        </article>
+        <article class="doc-card dc-3">
+          <div class="dc-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            the missing step
+          </div>
+          <p class="dc-text">"Did they actually build it — or just sit in the meetings?"</p>
+          <span class="dc-tag flag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h13l-3 4 3 4H5"/></svg>
+            Unverified
+          </span>
+        </article>
+      </div>
     </div>
-    <p class="problem-follow reveal reveal-delay-3">
-      Recruiters can't tell the difference between real experience and a well-written lie. <span class="emph">VerifiedWork</span> adds the human layer that's been missing.
-    </p>
   </div>
 </section>
 
@@ -872,17 +1000,30 @@ input { font-family: inherit; }
   <div class="container">
     <div class="section-eyebrow">How it works</div>
     <div class="how-grid">
+      <span class="how-connector" aria-hidden="true"></span>
       <article class="step reveal reveal-delay-1">
-        <span class="step-num">01</span>
-        <h3>Show your work.</h3>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+        </span>
+        <span class="step-num">Step 01</span>
+        <h3>Show your work</h3>
+        <p>Add a project and the outcome it actually drove.</p>
       </article>
       <article class="step reveal reveal-delay-2">
-        <span class="step-num">02</span>
-        <h3>Get endorsed.</h3>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.7-7 10-4-1.3-7-5.4-7-10V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+        </span>
+        <span class="step-num">Step 02</span>
+        <h3>Get endorsed</h3>
+        <p>Someone who was there confirms it in 90 seconds.</p>
       </article>
       <article class="step reveal reveal-delay-3">
-        <span class="step-num">03</span>
-        <h3>Get hired.</h3>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg>
+        </span>
+        <span class="step-num">Step 03</span>
+        <h3>Get hired</h3>
+        <p>Share one link recruiters can actually trust.</p>
       </article>
     </div>
   </div>
@@ -1105,6 +1246,27 @@ window.addEventListener('scroll', () => {
     ticking = true;
   }
 }, { passive: true });
+
+/* ============================================================
+   Hero pills: gentle parallax that follows the pointer
+   ============================================================ */
+const heroSection = document.getElementById('top');
+const heroPills = document.querySelectorAll('.hero-pill');
+const canParallax = window.matchMedia('(min-width: 1120px)').matches &&
+  !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (heroSection && heroPills.length && canParallax) {
+  heroSection.addEventListener('mousemove', (e) => {
+    const dx = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+    const dy = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+    heroPills.forEach((pill, i) => {
+      const depth = (i % 2 === 0 ? 1 : -1) * (12 + i * 5);
+      pill.style.transform = 'translate(' + (dx * depth) + 'px,' + (dy * depth) + 'px)';
+    });
+  });
+  heroSection.addEventListener('mouseleave', () => {
+    heroPills.forEach((pill) => { pill.style.transform = ''; });
+  });
+}
 
 /* ============================================================
    Reveal on scroll
