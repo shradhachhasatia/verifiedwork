@@ -100,13 +100,12 @@ input { font-family: inherit; }
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-mark {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 0;
   text-decoration: none; color: var(--black);
   font-family: var(--font); font-weight: 700;
-  font-size: clamp(15px, 0.5vw + 13px, 18px);
-  letter-spacing: -0.01em;
+  font-size: clamp(17px, 0.6vw + 14px, 21px);
+  letter-spacing: -0.015em;
 }
-.nav-mark .ico { width: 28px; height: 28px; border-radius: 22%; flex-shrink: 0; }
 .nav-mark .work { font-weight: 400; color: var(--grey); }
 .nav-mark .check {
   display: inline-flex; align-items: center; justify-content: center;
@@ -225,20 +224,27 @@ input { font-family: inherit; }
   position: relative;
   vertical-align: baseline;
   overflow: hidden;
+  transition: width 440ms var(--ease-out);
+  will-change: width;
 }
 .hero-title .cycle-word {
   display: inline-block;
   color: var(--green);
-  transition: transform 360ms var(--ease-out), opacity 240ms var(--ease-out);
-  will-change: transform, opacity;
+  white-space: nowrap;
+  transition: transform 440ms var(--ease-out),
+              opacity 300ms var(--ease-out),
+              filter 380ms var(--ease-out);
+  will-change: transform, opacity, filter;
 }
 .hero-title .cycle-word.out {
-  transform: translateY(-50%);
+  transform: translateY(-65%);
   opacity: 0;
+  filter: blur(6px);
 }
 .hero-title .cycle-word.in-up {
-  transform: translateY(50%);
+  transform: translateY(65%);
   opacity: 0;
+  filter: blur(6px);
 }
 .hero-title .work {
   font-weight: 400;
@@ -786,21 +792,13 @@ input { font-family: inherit; }
 <nav class="nav" id="nav">
   <div class="container inner">
     <a class="nav-mark" href="#top" aria-label="verified.work">
-      <span class="ico" aria-hidden="true">
-        <svg viewBox="0 0 1024 1024">
-          <rect width="1024" height="1024" rx="225" fill="#1A1A1A"/>
-          <text x="512" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-weight="900" font-size="560" letter-spacing="-32">
-            <tspan fill="#FFFFFF">V</tspan><tspan fill="#40916C">W</tspan>
-          </text>
-        </svg>
-      </span>
       <span>verified</span>
       <span class="check" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
       </span>
       <span class="work">work</span>
     </a>
-    <button class="nav-cta" onclick="document.getElementById('final-email').focus()">Join Waitlist</button>
+    <button class="nav-cta" onclick="document.getElementById('final-email').focus()">Join the Waitlist</button>
   </div>
 </nav>
 
@@ -834,7 +832,7 @@ input { font-family: inherit; }
     <form class="waitlist" id="hero-form" autocomplete="off" novalidate>
       <input type="email" name="email" placeholder="you@where-you-work.com" required aria-label="Email address">
       <button type="submit">
-        Claim Your Early Access
+        Join the Waitlist
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
     </form>
@@ -941,7 +939,7 @@ input { font-family: inherit; }
     <form class="waitlist reveal reveal-delay-2" id="final-form" autocomplete="off" novalidate>
       <input id="final-email" type="email" name="email" placeholder="you@where-you-work.com" required aria-label="Email address">
       <button type="submit">
-        Get Early Access
+        Join the Waitlist
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </button>
     </form>
@@ -1017,25 +1015,60 @@ input { font-family: inherit; }
    Hero word cycle: "found" → "verified" → "hired"
    ============================================================ */
 const cycleEl = document.querySelector('.cycle-word');
+const cycleWrap = document.querySelector('.cycle');
 const cycleWords = ['found.', 'verified.', 'hired.'];
 let cycleIdx = 0;
+
+// Measure a word's rendered width so the headline slot can resize smoothly
+// instead of snapping (which shifts the whole centered line).
+function measureWord(text) {
+  const probe = document.createElement('span');
+  const cs = getComputedStyle(cycleEl);
+  probe.style.cssText =
+    'position:absolute;left:-9999px;top:-9999px;white-space:nowrap;' +
+    'font-family:' + cs.fontFamily + ';font-size:' + cs.fontSize + ';' +
+    'font-weight:' + cs.fontWeight + ';letter-spacing:' + cs.letterSpacing + ';';
+  probe.textContent = text;
+  document.body.appendChild(probe);
+  const w = probe.getBoundingClientRect().width;
+  probe.remove();
+  return Math.ceil(w);
+}
+function sizeCycleTo(text) {
+  cycleWrap.style.width = measureWord(text) + 'px';
+}
+
+// Lock the starting width once the web font has loaded.
+function initCycle() { sizeCycleTo(cycleWords[cycleIdx]); }
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(initCycle);
+} else {
+  initCycle();
+}
+
 function cycleNext() {
-  cycleIdx = (cycleIdx + 1) % cycleWords.length;
+  const nextIdx = (cycleIdx + 1) % cycleWords.length;
+  // Resize the slot to the incoming word — glides via the CSS width transition.
+  sizeCycleTo(cycleWords[nextIdx]);
+  // Slide the current word up, fade and blur it out.
   cycleEl.classList.add('out');
   setTimeout(() => {
-    cycleEl.textContent = cycleWords[cycleIdx];
+    // Reposition below the slot with NO transition, so the new word doesn't
+    // visibly travel down from the "out" position — this kills the glitch.
+    cycleEl.style.transition = 'none';
+    cycleEl.textContent = cycleWords[nextIdx];
     cycleEl.classList.remove('out');
     cycleEl.classList.add('in-up');
-    // force a frame, then drop in-up so it animates from translateY(50%) → 0
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => cycleEl.classList.remove('in-up'));
-    });
-  }, 280);
+    void cycleEl.offsetWidth; // force reflow so the jump applies instantly
+    cycleEl.style.transition = ''; // restore transitions
+    cycleEl.classList.remove('in-up'); // glide smoothly into place
+    cycleIdx = nextIdx;
+  }, 380);
 }
-// start cycling after hero entrance animation settles
+// Start cycling after the hero entrance animation settles.
 setTimeout(() => {
-  setInterval(cycleNext, 2400);
-}, 2200);
+  setInterval(cycleNext, 2600);
+}, 2400);
 const nav = document.getElementById('nav');
 const onScroll = () => {
   if (window.scrollY > 8) nav.classList.add('scrolled');
