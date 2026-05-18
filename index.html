@@ -587,104 +587,114 @@ input { font-family: inherit; }
 }
 
 /* ============================================================
-   Endorsement showcase
+   Proof — research carousel
    ============================================================ */
-.endorse {
-  padding: var(--gap-section) 0;
-  text-align: center;
+.proof { padding: var(--gap-section) 0; }
+.proof-head { text-align: center; margin-bottom: clamp(38px, 5vw, 56px); }
+.proof-head .section-eyebrow { margin-bottom: 16px; }
+.proof-head h2 {
+  margin: 0 auto;
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.12; letter-spacing: -0.03em;
+  color: var(--black); text-wrap: balance;
+  max-width: 18ch;
 }
-.endorse-stage {
+.proof-carousel { max-width: 620px; margin: 0 auto; }
+.proof-viewport { overflow: hidden; padding: 12px 14px 32px; }
+.proof-track { display: flex; transition: transform 540ms var(--ease-out); }
+.proof-card {
+  flex: 0 0 100%;
+  box-sizing: border-box;
   position: relative;
-  margin: clamp(40px, 4vw, 64px) auto 0;
-  max-width: 560px;
-}
-
-.endorse-card {
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: clamp(20px, 2vw, 28px);
+  border-radius: 20px;
+  padding: clamp(24px, 3.4vw, 36px);
+  box-shadow: 0 22px 46px -24px rgba(26, 26, 26, 0.26);
   text-align: left;
-  box-shadow: 0 12px 32px -8px rgba(26,26,26,0.08), 0 1px 2px rgba(26,26,26,0.04);
-  position: relative;
+  cursor: pointer;
+  transition: border-color 200ms var(--ease-out);
 }
-.endorse-card .head {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: clamp(14px, 1.5vw, 18px);
-}
-.endorse-card .ava {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #C2D8CC, #6E8E7E);
-  color: var(--white);
-  font-weight: 600; font-size: 14px;
+.proof-card:hover { border-color: var(--green); }
+.proof-card:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.proof-toggle {
+  position: absolute;
+  top: clamp(22px, 3.2vw, 30px); right: clamp(22px, 3.2vw, 30px);
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--grey-3);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  position: relative;
+  transition: transform 340ms var(--ease-out), background 200ms, color 200ms, border-color 200ms;
 }
-.endorse-card .ava .verified {
-  position: absolute; bottom: -2px; right: -2px;
-  width: 16px; height: 16px;
-  background: var(--green); border: 2px solid var(--white); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+.proof-toggle svg { width: 14px; height: 14px; }
+.proof-card.expanded .proof-toggle {
+  transform: rotate(180deg);
+  background: var(--green); color: var(--white); border-color: var(--green);
 }
-.endorse-card .ava .verified svg { width: 8px; height: 8px; }
-.endorse-card .who {
-  font-weight: 600; font-size: clamp(13px, 0.3vw + 12px, 15px);
-  line-height: 1.2; color: var(--black);
-}
-.endorse-card .role {
-  font-size: clamp(12px, 0.2vw + 11px, 13px);
-  color: var(--grey); margin-top: 2px;
-}
-.endorse-card .quote {
-  margin: 0;
-  font-size: clamp(15px, 0.5vw + 13px, 19px);
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--black);
-  letter-spacing: -0.01em;
-}
-.endorse-card .meta {
-  display: flex; gap: 10px; align-items: center;
-  margin-top: clamp(14px, 1.5vw, 18px);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--grey);
-  letter-spacing: 0.02em;
-}
-.endorse-card .meta .pill {
-  background: var(--surface-2); padding: 4px 8px; border-radius: 4px;
-}
-.endorse-card .meta .sep {
-  width: 3px; height: 3px; border-radius: 50%; background: var(--grey-2);
-}
-.endorse-card .stamp-badge {
-  position: absolute; top: -14px; right: clamp(16px, 3vw, 28px);
-  background: var(--green); color: var(--white);
+.proof-geo {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 12px 6px 10px;
-  border-radius: 999px;
-  font-weight: 600; font-size: clamp(10px, 0.2vw + 9px, 11px);
-  letter-spacing: 0.08em; text-transform: uppercase;
-  box-shadow: 0 4px 12px -2px rgba(45, 106, 79, 0.30);
-  transform: scale(0);
-  transition: transform 380ms var(--ease-stamp);
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--green); background: var(--green-tint);
+  padding: 5px 11px; border-radius: 999px;
+  margin-bottom: 18px;
 }
-.endorse-card.stamped .stamp-badge { transform: scale(1); }
-.endorse-card .stamp-badge svg { width: 11px; height: 11px; }
-
-/* Background ghost cards for depth */
-.endorse-stage .ghost {
-  position: absolute; inset: 0;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  opacity: 0.6;
-  z-index: -1;
+.proof-geo svg { width: 11px; height: 11px; }
+.proof-stat {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(21px, 1.3vw + 14px, 30px);
+  line-height: 1.22; letter-spacing: -0.02em;
+  color: var(--black); text-wrap: balance;
 }
-.endorse-stage .ghost-1 { transform: translate(-12px, 14px) rotate(-2deg); }
-.endorse-stage .ghost-2 { transform: translate(12px, 22px) rotate(2deg); opacity: 0.4; }
+.proof-stat .hl { color: var(--green); }
+.proof-context {
+  margin: 13px 0 0;
+  font-size: 15px; color: var(--grey); line-height: 1.55;
+}
+.proof-more {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 440ms var(--ease-out);
+}
+.proof-card.expanded .proof-more { grid-template-rows: 1fr; }
+.proof-more-inner { overflow: hidden; }
+.proof-more-inner p {
+  margin: 14px 0 0;
+  font-size: 14.5px; color: var(--grey-3); line-height: 1.6;
+}
+.proof-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 14px;
+  font-weight: 600; font-size: 14px; color: var(--green);
+}
+.proof-link svg { width: 14px; height: 14px; transition: transform 200ms var(--ease-out); }
+.proof-link:hover svg { transform: translate(3px, -3px); }
+.proof-divider {
+  margin-top: clamp(18px, 2.4vw, 24px);
+  padding-top: clamp(16px, 2vw, 20px);
+  border-top: 1px solid var(--line);
+}
+.proof-publisher { display: flex; align-items: center; gap: 12px; }
+.pub-logo {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; letter-spacing: -0.02em;
+  color: var(--white); flex-shrink: 0;
+}
+.pub-name { display: flex; flex-direction: column; line-height: 1.3; }
+.pub-name strong { font-size: 14px; font-weight: 600; color: var(--black); }
+.pub-name span {
+  font-size: 12px; color: var(--grey-2);
+  font-family: var(--mono); letter-spacing: 0.01em;
+}
+.proof-dots { display: flex; justify-content: center; gap: 9px; margin-top: 22px; }
+.proof-dot {
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--line); border: 0; padding: 0; cursor: pointer;
+  transition: background 240ms var(--ease-out), width 240ms var(--ease-out);
+}
+.proof-dot.is-active { background: var(--green); width: 24px; }
 
 /* ============================================================
    Trust strip
@@ -1032,43 +1042,135 @@ input { font-family: inherit; }
 </section>
 
 <!-- =========================================================
-     ENDORSEMENT SHOWCASE
+     PROOF — research carousel
      ========================================================= -->
-<section class="endorse">
+<section class="proof" id="proof">
   <div class="container">
-    <div class="section-eyebrow" style="justify-content: center;">An endorsement, on paper</div>
-    <h2 class="reveal" style="font-weight:700; font-size:var(--fs-h2); line-height:1.15; letter-spacing:-0.025em; margin:0 auto; max-width:22ch; text-wrap:balance;">
-      Specific. Public. Tied to a name with a verified email.
-    </h2>
+    <div class="proof-head reveal">
+      <div class="section-eyebrow">Backed by research</div>
+      <h2>Hiring is broken. The data proves it.</h2>
+    </div>
 
-    <div class="endorse-stage reveal reveal-delay-2" id="endorse-stage">
-      <div class="ghost ghost-2"></div>
-      <div class="ghost ghost-1"></div>
+    <div class="proof-carousel reveal reveal-delay-1">
+      <div class="proof-viewport">
+        <div class="proof-track" id="proof-track">
 
-      <article class="endorse-card" id="endorse-card">
-        <div class="stamp-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-          Verified
-        </div>
-        <div class="head">
-          <div class="ava">
-            JV
-            <span class="verified" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+            <span class="proof-toggle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </span>
-          </div>
-          <div>
-            <div class="who">Jordan Vance</div>
-            <div class="role">Staff Engineer · Slate</div>
-          </div>
+            <span class="proof-geo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 1 1 14 0c0 5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              India
+            </span>
+            <p class="proof-stat"><span class="hl">1 in 6</span> Indian white-collar resumes don't match the candidate's real credentials.</p>
+            <p class="proof-context">AuthBridge screened millions of background checks between October 2024 and March 2025.</p>
+            <div class="proof-more">
+              <div class="proof-more-inner">
+                <p>Discrepancies ran highest in pharma at 16%, banking at 11.7% and telecom at 11.3%. A polished resume routinely outruns the truth.</p>
+                <a class="proof-link" href="https://www.authbridge.com/newsroom/authbridge-exposes-indias-hiring-red-flags" target="_blank" rel="noopener noreferrer">
+                  Read the full report
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="proof-divider">
+              <div class="proof-publisher">
+                <span class="pub-logo" style="background:#1A4D8F;" aria-hidden="true">AB</span>
+                <span class="pub-name"><strong>AuthBridge</strong><span>Workforce Fraud Files 2025</span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+            <span class="proof-toggle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+            <span class="proof-geo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>
+              Global
+            </span>
+            <p class="proof-stat">LinkedIn now sees <span class="hl">11,000</span> job applications every minute, up 45% in a year.</p>
+            <p class="proof-context">AI-written applications have flooded hiring to a scale no human can read.</p>
+            <div class="proof-more">
+              <div class="proof-more-inner">
+                <p>Recruiters now face hundreds of near-identical, machine-written resumes per role. Genuine, verified experience is almost impossible to spot.</p>
+                <a class="proof-link" href="https://www.eweek.com/news/ai-job-applications-linkedin" target="_blank" rel="noopener noreferrer">
+                  Read the full story
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="proof-divider">
+              <div class="proof-publisher">
+                <span class="pub-logo" style="background:#C8102E;" aria-hidden="true">eW</span>
+                <span class="pub-name"><strong>eWeek</strong><span>AI in hiring, 2025</span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+            <span class="proof-toggle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+            <span class="proof-geo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>
+              Global
+            </span>
+            <p class="proof-stat">Just <span class="hl">26%</span> of job seekers trust AI to evaluate them fairly.</p>
+            <p class="proof-context">Another 32% fear an algorithm will reject them before a human ever looks.</p>
+            <div class="proof-more">
+              <div class="proof-more-inner">
+                <p>Gartner surveyed 2,918 candidates in early 2025. Trust collapses exactly where hiring now leans on automation the most.</p>
+                <a class="proof-link" href="https://www.gartner.com/en/newsroom/press-releases/2025-07-31-gartner-survey-shows-just-26-percent-of-job-applicants-trust-ai-will-fairly-evaluate-them" target="_blank" rel="noopener noreferrer">
+                  Read the Gartner survey
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="proof-divider">
+              <div class="proof-publisher">
+                <span class="pub-logo" style="background:#00395D;" aria-hidden="true">G</span>
+                <span class="pub-name"><strong>Gartner</strong><span>Candidate Trust Survey, 2025</span></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+            <span class="proof-toggle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+            <span class="proof-geo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>
+              Global
+            </span>
+            <p class="proof-stat"><span class="hl">91%</span> of HR leaders look for verified credentials. Only <span class="hl">46%</span> can find them.</p>
+            <p class="proof-context">The demand for proof is already here. The supply is not.</p>
+            <div class="proof-more">
+              <div class="proof-more-inner">
+                <p>Accredible surveyed 502 HR and recruiting leaders in 2025. Verified work is exactly the gap VerifiedWork was built to close.</p>
+                <a class="proof-link" href="https://www.accredible.com/reports/2025-state-of-credentialing-report" target="_blank" rel="noopener noreferrer">
+                  Read the credentialing report
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="proof-divider">
+              <div class="proof-publisher">
+                <span class="pub-logo" style="background:#4F46E5;" aria-hidden="true">Ac</span>
+                <span class="pub-name"><strong>Accredible</strong><span>State of Credentialing, 2025</span></span>
+              </div>
+            </div>
+          </article>
+
         </div>
-        <p class="quote">"Maya wrote the migration script that saved us a weekend of downtime. Calm, careful, exact. The kind of engineer you want next to you on Friday at 6pm."</p>
-        <div class="meta">
-          <span class="pill">migration · postgres</span>
-          <span class="sep"></span>
-          <span>endorsed 2 days ago</span>
-        </div>
-      </article>
+      </div>
+      <div class="proof-dots" id="proof-dots">
+        <button class="proof-dot is-active" type="button" aria-label="Show research card 1"></button>
+        <button class="proof-dot" type="button" aria-label="Show research card 2"></button>
+        <button class="proof-dot" type="button" aria-label="Show research card 3"></button>
+        <button class="proof-dot" type="button" aria-label="Show research card 4"></button>
+      </div>
     </div>
   </div>
 </section>
@@ -1294,12 +1396,6 @@ const io = new IntersectionObserver(
     entries.forEach((e) => {
       if (e.isIntersecting) {
         e.target.classList.add('in');
-        // Trigger stamp for endorsement card
-        if (e.target.id === 'endorse-stage') {
-          setTimeout(() => {
-            document.getElementById('endorse-card').classList.add('stamped');
-          }, 400);
-        }
         io.unobserve(e.target);
       }
     });
@@ -1307,6 +1403,64 @@ const io = new IntersectionObserver(
   { threshold: 0.18, rootMargin: '0px 0px -60px 0px' }
 );
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+/* ============================================================
+   Proof carousel: auto-rotating research cards
+   ============================================================ */
+(function () {
+  const track = document.getElementById('proof-track');
+  const dotsWrap = document.getElementById('proof-dots');
+  if (!track || !dotsWrap) return;
+  const cards = Array.from(track.querySelectorAll('[data-proof-card]'));
+  const dots = Array.from(dotsWrap.querySelectorAll('.proof-dot'));
+  let index = 0;
+  let timer = null;
+  const DELAY = 6500;
+
+  const render = () => {
+    track.style.transform = 'translateX(' + (-index * 100) + '%)';
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+  };
+  const go = (i) => {
+    cards.forEach((c) => {
+      c.classList.remove('expanded');
+      c.setAttribute('aria-expanded', 'false');
+    });
+    index = (i + cards.length) % cards.length;
+    render();
+  };
+  const stopAuto = () => { if (timer) { clearInterval(timer); timer = null; } };
+  const startAuto = () => {
+    stopAuto();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    timer = setInterval(() => go(index + 1), DELAY);
+  };
+  const toggleCard = (card) => {
+    const open = card.classList.toggle('expanded');
+    card.setAttribute('aria-expanded', open ? 'true' : 'false');
+    stopAuto();
+  };
+
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.proof-link')) return;
+      toggleCard(card);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.target.closest('.proof-link')) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCard(card);
+      }
+    });
+  });
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { go(i); stopAuto(); });
+  });
+
+  render();
+  startAuto();
+})();
 
 /* ============================================================
    Waitlist form handler
