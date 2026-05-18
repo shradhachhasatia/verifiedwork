@@ -674,19 +674,32 @@ input { font-family: inherit; }
   margin-top: clamp(18px, 2.4vw, 24px);
   padding-top: clamp(16px, 2vw, 20px);
   border-top: 1px solid var(--line);
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 14px; flex-wrap: wrap;
 }
-.proof-publisher { display: flex; align-items: center; gap: 12px; }
+.proof-publisher { display: flex; flex-direction: column; gap: 6px; }
+.pub-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--grey-2);
+}
 .pub-logo {
-  width: 40px; height: 40px; border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 13px; letter-spacing: -0.02em;
-  color: var(--white); flex-shrink: 0;
+  font-size: 18px; line-height: 1; font-weight: 700;
+  letter-spacing: -0.02em; white-space: nowrap;
 }
-.pub-name { display: flex; flex-direction: column; line-height: 1.3; }
-.pub-name strong { font-size: 14px; font-weight: 600; color: var(--black); }
-.pub-name span {
-  font-size: 12px; color: var(--grey-2);
-  font-family: var(--mono); letter-spacing: 0.01em;
+.pub-logo--authbridge { color: #103B6F; }
+.pub-logo--authbridge b { color: #2F7DD1; font-weight: 700; }
+.pub-logo--eweek { color: #D81E2C; font-weight: 800; letter-spacing: 0; }
+.pub-logo--gartner { color: #0A2A66; text-transform: lowercase; letter-spacing: -0.045em; }
+.pub-logo--accredible { color: #2B2A8E; }
+.pub-logo--harvard {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #A41034; font-size: 16px; letter-spacing: 0;
+}
+.pub-report {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--grey-2); letter-spacing: 0.02em;
+  text-align: right; white-space: nowrap;
 }
 .proof-dots { display: flex; justify-content: center; gap: 9px; margin-top: 22px; }
 .proof-dot {
@@ -1068,17 +1081,18 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Discrepancies ran highest in pharma at 16%, banking at 11.7% and telecom at 11.3%. A polished resume routinely outruns the truth.</p>
-                <a class="proof-link" href="https://www.authbridge.com/newsroom/authbridge-exposes-indias-hiring-red-flags" target="_blank" rel="noopener noreferrer">
+                <a class="proof-link" href="https://authbridge.com/newsroom/authbridge-exposes-indias-hiring-red-flags/" target="_blank" rel="noopener noreferrer">
                   Read the full report
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
                 </a>
               </div>
             </div>
             <div class="proof-divider">
-              <div class="proof-publisher">
-                <span class="pub-logo" style="background:#1A4D8F;" aria-hidden="true">AB</span>
-                <span class="pub-name"><strong>AuthBridge</strong><span>Workforce Fraud Files 2025</span></span>
-              </div>
+              <span class="proof-publisher">
+                <span class="pub-tag">Source</span>
+                <span class="pub-logo pub-logo--authbridge">Auth<b>Bridge</b></span>
+              </span>
+              <span class="pub-report">Workforce Fraud Files 2025</span>
             </div>
           </article>
 
@@ -1095,17 +1109,46 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Recruiters now face hundreds of near-identical, machine-written resumes per role. Genuine, verified experience is almost impossible to spot.</p>
-                <a class="proof-link" href="https://www.eweek.com/news/ai-job-applications-linkedin" target="_blank" rel="noopener noreferrer">
+                <a class="proof-link" href="https://www.eweek.com/news/ai-job-applications-linkedin/" target="_blank" rel="noopener noreferrer">
                   Read the full story
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
                 </a>
               </div>
             </div>
             <div class="proof-divider">
-              <div class="proof-publisher">
-                <span class="pub-logo" style="background:#C8102E;" aria-hidden="true">eW</span>
-                <span class="pub-name"><strong>eWeek</strong><span>AI in hiring, 2025</span></span>
+              <span class="proof-publisher">
+                <span class="pub-tag">Source</span>
+                <span class="pub-logo pub-logo--eweek">eWEEK</span>
+              </span>
+              <span class="pub-report">AI in hiring 2025</span>
+            </div>
+          </article>
+
+          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+            <span class="proof-toggle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+            <span class="proof-geo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18"/></svg>
+              Global
+            </span>
+            <p class="proof-stat"><span class="hl">88%</span> of employers admit their own screening software rejects qualified candidates.</p>
+            <p class="proof-context">Automated filters quietly reject people who can do the job but miss the keywords.</p>
+            <div class="proof-more">
+              <div class="proof-more-inner">
+                <p>Harvard Business School and Accenture surveyed thousands of executives and workers. They estimate more than 27 million capable workers sit hidden behind these systems.</p>
+                <a class="proof-link" href="https://www.hbs.edu/managing-the-future-of-work/research/Pages/hidden-workers-untapped-talent.aspx" target="_blank" rel="noopener noreferrer">
+                  Read the Harvard study
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+                </a>
               </div>
+            </div>
+            <div class="proof-divider">
+              <span class="proof-publisher">
+                <span class="pub-tag">Source</span>
+                <span class="pub-logo pub-logo--harvard">Harvard Business School</span>
+              </span>
+              <span class="pub-report">Hidden Workers 2021</span>
             </div>
           </article>
 
@@ -1129,10 +1172,11 @@ input { font-family: inherit; }
               </div>
             </div>
             <div class="proof-divider">
-              <div class="proof-publisher">
-                <span class="pub-logo" style="background:#00395D;" aria-hidden="true">G</span>
-                <span class="pub-name"><strong>Gartner</strong><span>Candidate Trust Survey, 2025</span></span>
-              </div>
+              <span class="proof-publisher">
+                <span class="pub-tag">Source</span>
+                <span class="pub-logo pub-logo--gartner">Gartner</span>
+              </span>
+              <span class="pub-report">Candidate Trust Survey 2025</span>
             </div>
           </article>
 
@@ -1156,10 +1200,11 @@ input { font-family: inherit; }
               </div>
             </div>
             <div class="proof-divider">
-              <div class="proof-publisher">
-                <span class="pub-logo" style="background:#4F46E5;" aria-hidden="true">Ac</span>
-                <span class="pub-name"><strong>Accredible</strong><span>State of Credentialing, 2025</span></span>
-              </div>
+              <span class="proof-publisher">
+                <span class="pub-tag">Source</span>
+                <span class="pub-logo pub-logo--accredible">Accredible</span>
+              </span>
+              <span class="pub-report">State of Credentialing 2025</span>
             </div>
           </article>
 
@@ -1170,6 +1215,7 @@ input { font-family: inherit; }
         <button class="proof-dot" type="button" aria-label="Show research card 2"></button>
         <button class="proof-dot" type="button" aria-label="Show research card 3"></button>
         <button class="proof-dot" type="button" aria-label="Show research card 4"></button>
+        <button class="proof-dot" type="button" aria-label="Show research card 5"></button>
       </div>
     </div>
   </div>
@@ -1239,9 +1285,9 @@ input { font-family: inherit; }
       <div class="foot-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="#">Privacy policy</a></li>
-          <li><a href="#">Terms of service</a></li>
-          <li><a href="#">Cookies</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="terms.html">Terms of service</a></li>
+          <li><a href="privacy.html#cookies">Cookies</a></li>
         </ul>
       </div>
     </nav>
