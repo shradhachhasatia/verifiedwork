@@ -601,12 +601,12 @@ input { font-family: inherit; }
   max-width: 18ch;
 }
 .proof-carousel { max-width: 620px; margin: 0 auto; }
-.proof-viewport { overflow: hidden; padding: 12px 14px 32px; }
-.proof-track { display: flex; transition: transform 540ms var(--ease-out); }
+.proof-viewport { overflow: hidden; padding: 14px 16px 34px; }
+.proof-track { position: relative; min-height: 340px; }
+.proof-track.switching { transition: height 460ms var(--ease-out); }
 .proof-card {
-  flex: 0 0 100%;
+  position: absolute; top: 0; left: 0; right: 0;
   box-sizing: border-box;
-  position: relative;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 20px;
@@ -614,7 +614,17 @@ input { font-family: inherit; }
   box-shadow: 0 22px 46px -24px rgba(26, 26, 26, 0.26);
   text-align: left;
   cursor: pointer;
-  transition: border-color 200ms var(--ease-out);
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 460ms var(--ease-out),
+              transform 560ms var(--ease-out),
+              border-color 200ms var(--ease-out);
+  pointer-events: none;
+}
+.proof-card.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 .proof-card:hover { border-color: var(--green); }
 .proof-card:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
@@ -1068,7 +1078,7 @@ input { font-family: inherit; }
       <div class="proof-viewport">
         <div class="proof-track" id="proof-track">
 
-          <article class="proof-card" data-proof-card tabindex="0" role="button" aria-expanded="false">
+          <article class="proof-card is-active" data-proof-card tabindex="0" role="button" aria-expanded="false">
             <span class="proof-toggle" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </span>
@@ -1081,12 +1091,12 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Discrepancies ran highest in pharma at 16%, banking at 11.7% and telecom at 11.3%. A polished resume routinely outruns the truth.</p>
-                <a class="proof-link" href="https://authbridge.com/newsroom/authbridge-exposes-indias-hiring-red-flags/" target="_blank" rel="noopener noreferrer">
-                  Read the full report
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
-                </a>
               </div>
             </div>
+            <a class="proof-link" href="https://authbridge.com/newsroom/authbridge-exposes-indias-hiring-red-flags/" target="_blank" rel="noopener noreferrer">
+              Read the full story
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
             <div class="proof-divider">
               <span class="proof-publisher">
                 <span class="pub-tag">Source</span>
@@ -1109,12 +1119,12 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Recruiters now face hundreds of near-identical, machine-written resumes per role. Genuine, verified experience is almost impossible to spot.</p>
-                <a class="proof-link" href="https://www.eweek.com/news/ai-job-applications-linkedin/" target="_blank" rel="noopener noreferrer">
-                  Read the full story
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
-                </a>
               </div>
             </div>
+            <a class="proof-link" href="https://www.eweek.com/news/ai-job-applications-linkedin/" target="_blank" rel="noopener noreferrer">
+              Read the full story
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
             <div class="proof-divider">
               <span class="proof-publisher">
                 <span class="pub-tag">Source</span>
@@ -1137,12 +1147,12 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Harvard Business School and Accenture surveyed thousands of executives and workers. They estimate more than 27 million capable workers sit hidden behind these systems.</p>
-                <a class="proof-link" href="https://www.hbs.edu/managing-the-future-of-work/research/Pages/hidden-workers-untapped-talent.aspx" target="_blank" rel="noopener noreferrer">
-                  Read the Harvard study
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
-                </a>
               </div>
             </div>
+            <a class="proof-link" href="https://www.hbs.edu/managing-the-future-of-work/research/Pages/hidden-workers-untapped-talent.aspx" target="_blank" rel="noopener noreferrer">
+              Read the full story
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
             <div class="proof-divider">
               <span class="proof-publisher">
                 <span class="pub-tag">Source</span>
@@ -1165,12 +1175,12 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Gartner surveyed 2,918 candidates in early 2025. Trust collapses exactly where hiring now leans on automation the most.</p>
-                <a class="proof-link" href="https://www.gartner.com/en/newsroom/press-releases/2025-07-31-gartner-survey-shows-just-26-percent-of-job-applicants-trust-ai-will-fairly-evaluate-them" target="_blank" rel="noopener noreferrer">
-                  Read the Gartner survey
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
-                </a>
               </div>
             </div>
+            <a class="proof-link" href="https://www.gartner.com/en/newsroom/press-releases/2025-07-31-gartner-survey-shows-just-26-percent-of-job-applicants-trust-ai-will-fairly-evaluate-them" target="_blank" rel="noopener noreferrer">
+              Read the full story
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
             <div class="proof-divider">
               <span class="proof-publisher">
                 <span class="pub-tag">Source</span>
@@ -1193,12 +1203,12 @@ input { font-family: inherit; }
             <div class="proof-more">
               <div class="proof-more-inner">
                 <p>Accredible surveyed 502 HR and recruiting leaders in 2025. Verified work is exactly the gap VerifiedWork was built to close.</p>
-                <a class="proof-link" href="https://www.accredible.com/reports/2025-state-of-credentialing-report" target="_blank" rel="noopener noreferrer">
-                  Read the credentialing report
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
-                </a>
               </div>
             </div>
+            <a class="proof-link" href="https://www.accredible.com/reports/2025-state-of-credentialing-report" target="_blank" rel="noopener noreferrer">
+              Read the full story
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
             <div class="proof-divider">
               <span class="proof-publisher">
                 <span class="pub-tag">Source</span>
@@ -1277,9 +1287,9 @@ input { font-family: inherit; }
       <div class="foot-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="mailto:hello@verified.work">hello@verified.work</a></li>
-          <li><a href="mailto:press@verified.work">Press</a></li>
-          <li><a href="mailto:careers@verified.work">Careers</a></li>
+          <li><a href="mailto:admin@verifiedwork.co">admin@verifiedwork.co</a></li>
+          <li><a href="mailto:admin@verifiedwork.co">Press</a></li>
+          <li><a href="mailto:admin@verifiedwork.co">Careers</a></li>
         </ul>
       </div>
       <div class="foot-col">
@@ -1461,11 +1471,18 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const dots = Array.from(dotsWrap.querySelectorAll('.proof-dot'));
   let index = 0;
   let timer = null;
-  const DELAY = 6500;
+  const DELAY = 3000;
 
+  // Keep the track tall enough for whichever card is showing.
+  const syncHeight = () => {
+    if (cards[index]) track.style.height = cards[index].offsetHeight + 'px';
+  };
   const render = () => {
-    track.style.transform = 'translateX(' + (-index * 100) + '%)';
+    cards.forEach((c, i) => c.classList.toggle('is-active', i === index));
     dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+    track.classList.add('switching');
+    syncHeight();
+    setTimeout(() => track.classList.remove('switching'), 500);
   };
   const go = (i) => {
     cards.forEach((c) => {
@@ -1485,6 +1502,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     const open = card.classList.toggle('expanded');
     card.setAttribute('aria-expanded', open ? 'true' : 'false');
     stopAuto();
+    syncHeight();
   };
 
   cards.forEach((card) => {
@@ -1504,7 +1522,17 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     dot.addEventListener('click', () => { go(i); stopAuto(); });
   });
 
-  render();
+  // Track the active card's size so expand animations stay smooth.
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(() => syncHeight());
+    cards.forEach((c) => ro.observe(c));
+  }
+  window.addEventListener('resize', syncHeight, { passive: true });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncHeight);
+  }
+
+  syncHeight();
   startAuto();
 })();
 
