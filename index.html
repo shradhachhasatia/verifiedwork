@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <title>verified.work | Get on the waitlist</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="description" content="Human validation in an AI world. A verified professional profile, endorsed by the people who'd know.">
 <link rel="canonical" href="https://verifiedwork.co/">
 
@@ -1501,6 +1504,15 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const syncHeight = () => {
     if (cards[index]) track.style.height = cards[index].offsetHeight + 'px';
   };
+  // Equalise every card to the tallest one so the carousel keeps a
+  // constant height while it rotates and never shifts the page below it.
+  const equalize = () => {
+    cards.forEach((c) => { c.style.minHeight = '0px'; });
+    let maxH = 0;
+    cards.forEach((c) => { maxH = Math.max(maxH, c.offsetHeight); });
+    cards.forEach((c) => { c.style.minHeight = maxH + 'px'; });
+    syncHeight();
+  };
   const render = () => {
     cards.forEach((c, i) => c.classList.toggle('is-active', i === index));
     dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
@@ -1551,12 +1563,12 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     const ro = new ResizeObserver(() => syncHeight());
     cards.forEach((c) => ro.observe(c));
   }
-  window.addEventListener('resize', syncHeight, { passive: true });
+  window.addEventListener('resize', equalize, { passive: true });
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(syncHeight);
+    document.fonts.ready.then(equalize);
   }
 
-  syncHeight();
+  equalize();
   startAuto();
 })();
 </script>
