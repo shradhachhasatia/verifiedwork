@@ -255,17 +255,19 @@ input { font-family: inherit; }
 }
 .hero-title .line { display: block; }
 .hero-title .cycle {
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: flex-start;
+  display: inline-block;
   position: relative;
-  vertical-align: baseline;
   overflow: hidden;
-  transition: width 440ms var(--ease-out);
-  will-change: width;
+  vertical-align: bottom;
+  height: 1.1em;
+  min-width: 3ch;
 }
 .hero-title .cycle-word {
-  display: inline-block;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--green);
   white-space: nowrap;
   transition: transform 440ms var(--ease-out),
@@ -274,12 +276,12 @@ input { font-family: inherit; }
   will-change: transform, opacity, filter;
 }
 .hero-title .cycle-word.out {
-  transform: translateY(-65%);
+  transform: translateY(-100%);
   opacity: 0;
   filter: blur(6px);
 }
 .hero-title .cycle-word.in-up {
-  transform: translateY(65%);
+  transform: translateY(100%);
   opacity: 0;
   filter: blur(6px);
 }
@@ -1322,8 +1324,7 @@ const cycleWrap = document.querySelector('.cycle');
 const cycleWords = ['found.', 'verified.', 'hired.'];
 let cycleIdx = 0;
 
-// Measure a word's rendered width so the headline slot can resize smoothly
-// instead of snapping (which shifts the whole centered line).
+// Measure a word's rendered width.
 function measureWord(text) {
   const probe = document.createElement('span');
   const cs = getComputedStyle(cycleEl);
@@ -1337,22 +1338,23 @@ function measureWord(text) {
   probe.remove();
   return Math.ceil(w);
 }
-function sizeCycleTo(text) {
-  cycleWrap.style.width = measureWord(text) + 'px';
-}
 
-// Lock the starting width once the web font has loaded.
-function initCycle() { sizeCycleTo(cycleWords[cycleIdx]); }
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(initCycle);
-} else {
-  initCycle();
+// Lock the slot to the widest word so the heading never changes size
+// as the word cycles — otherwise the whole page shifts up and down.
+function lockCycleWidth() {
+  let max = 0;
+  cycleWords.forEach((w) => { max = Math.max(max, measureWord(w)); });
+  cycleWrap.style.width = (max + 2) + 'px';
 }
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(lockCycleWidth);
+} else {
+  lockCycleWidth();
+}
+window.addEventListener('resize', lockCycleWidth, { passive: true });
 
 function cycleNext() {
   const nextIdx = (cycleIdx + 1) % cycleWords.length;
-  // Resize the slot to the incoming word — glides via the CSS width transition.
-  sizeCycleTo(cycleWords[nextIdx]);
   // Slide the current word up, fade and blur it out.
   cycleEl.classList.add('out');
   setTimeout(() => {
