@@ -20,8 +20,8 @@
   <text x="82" y="280" font-size="22" font-weight="600" letter-spacing="2.4" fill="#2D6A4F">INTENT-BASED HIRING</text>
 
   <!-- headline -->
-  <text x="78" y="368" font-size="78" font-weight="800" letter-spacing="-3" fill="#1A1A1A">Get hired for work</text>
-  <text x="78" y="456" font-size="78" font-weight="800" letter-spacing="-3" fill="#1A1A1A">you can <tspan fill="#2D6A4F">prove.</tspan></text>
+  <text x="78" y="368" font-size="78" font-weight="800" letter-spacing="-3" fill="#1A1A1A"><tspan fill="#2D6A4F">Human</tspan> validation</text>
+  <text x="78" y="456" font-size="78" font-weight="800" letter-spacing="-3" fill="#1A1A1A">in an AI world.</text>
 
   <!-- subline -->
   <text x="82" y="520" font-size="29" font-weight="400" fill="#6B7280">Hiring based on what you've done. Not what your CV says.</text>
